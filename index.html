@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Capital Code - Crossword</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="startScreen">
+    <h1>THE CAPITAL CODE</h1>
+    <p>Enter 52 Character Access Code</p>
+    <input type="text" id="accessCode" maxlength="52">
+    <button id="startBtn">START</button>
+</div>
+
+<header>
+    <div class="left">MONEY WEEK 2026</div>
+    <div class="center">Time Left: <span id="timer">40:00</span></div>
+    <div class="right">
+        <button id="submitBtn">Submit</button>
+        <button id="clearBtn">Clear</button>
+        <button id="undoBtn">Undo</button>
+    </div>
+</header>
+
+<div class="container">
+    <div id="grid"></div>
+
+    <div class="clues">
+        <h3>ACROSS</h3>
+        <div id="acrossClues"></div>
+
+        <h3>DOWN</h3>
+        <div id="downClues"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
