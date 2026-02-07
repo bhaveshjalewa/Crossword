@@ -13,10 +13,10 @@ let timeSpent = 0;
 let gameStarted = false;
 
 /* ========= COMPACT PUZZLE ========= */
-/* 0 = block, letter = solution */
+/* 0 = block */
 
 const puzzle = [
-"0LIFECYCLE00",
+"0LIFECYCLE000",
 "0N000000TBR0",
 "0T000000CAPM",
 "0C000NPVRULE",
@@ -32,6 +32,8 @@ const puzzle = [
 "000000NPV0000",
 "000000BETA000"
 ];
+
+/* ================= GRID CREATION ================= */
 
 function createGrid(){
 
@@ -54,6 +56,8 @@ function createGrid(){
             } else {
 
                 const wrapper = document.createElement("div");
+                wrapper.style.width = "40px";
+                wrapper.style.height = "40px";
                 wrapper.style.position = "relative";
 
                 const input = document.createElement("input");
@@ -76,7 +80,7 @@ function createGrid(){
                     handleNavigation(e,r,c);
                 });
 
-                // Check if this cell starts Across or Down word
+                // Numbering logic
                 const startsAcross =
                     (c === 0 || puzzle[r][c-1] === "0") &&
                     (puzzle[r][c+1] && puzzle[r][c+1] !== "0");
@@ -113,7 +117,7 @@ function startTimer(){
     },1000);
 }
 
-/* ================= CELL LOGIC ================= */
+/* ================= WORD HIGHLIGHT ================= */
 
 function handleCellClick(cell){
     if(selectedCell === cell){
@@ -154,12 +158,11 @@ function focusCell(r,c,highlight=false){
     }
 }
 
+/* ================= NAVIGATION ================= */
+
 function moveNext(r,c){
-    if(direction === "across"){
-        focusCell(r,c+1);
-    } else {
-        focusCell(r+1,c);
-    }
+    if(direction === "across") focusCell(r,c+1);
+    else focusCell(r+1,c);
 }
 
 function handleNavigation(e,r,c){
@@ -229,7 +232,5 @@ submitBtn.addEventListener("click", ()=>{
         startTimer();
     }
 });
-
-/* ================= INIT ================= */
 
 createGrid();
