@@ -1,5 +1,3 @@
-/* ===== GLOBAL ===== */
-
 body{
     margin:0;
     font-family:Segoe UI, sans-serif;
@@ -15,54 +13,70 @@ header{
     padding:10px 20px;
     background:#dbe7f5;
     font-weight:bold;
-    height:60px;
-    box-sizing:border-box;
 }
 
 /* ===== MAIN LAYOUT ===== */
 
 .container{
     display:flex;
-    height:calc(100vh - 60px); /* Full height minus header */
+    height:calc(100vh - 60px);
 }
 
-/* ===== CROSSWORD GRID ===== */
+/* ===== GRID ===== */
 
 #grid{
     display:grid;
-  #grid{
-    display:grid;
     gap:1px;
     background:#333;
     margin:20px;
 }
 
-    gap:1px;
-    background:#333;
-    margin:20px;
-}
-
-.cell{
+/* Each grid square wrapper */
+#grid > div{
+    width:40px;
+    height:40px;
+    position:relative;
     background:white;
+}
+
+/* Input cell */
+.cell{
+    width:100%;
+    height:100%;
     border:none;
     text-align:center;
     font-size:18px;
     text-transform:uppercase;
     outline:none;
-}
-.cell.active{
-    background:#cfe8ff;
+    background:white;
 }
 
 .cell:focus{
     background:#e6f2ff;
 }
 
+.cell.active{
+    background:#cfe8ff;
+}
+
+/* Black blocks */
 .block{
+    width:40px;
+    height:40px;
     background:black;
 }
 
-/* ===== CLUE SECTION ===== */
+/* Crossword numbering */
+.cell-number{
+    position:absolute;
+    top:2px;
+    left:4px;
+    font-size:10px;
+    font-weight:bold;
+    pointer-events:none;
+}
+
+/* ===== CLUES ===== */
 
 .clues-wrapper{
     flex:1;
@@ -70,46 +84,17 @@ header{
     gap:20px;
     padding:20px;
     background:white;
-    overflow:hidden; /* prevent whole page scroll */
-    box-sizing:border-box;
+    overflow:hidden;
 }
 
 .clue-column{
     flex:1;
-    display:flex;
-    flex-direction:column;
-    overflow-y:auto; /* scroll only inside column */
-}
-
-.clue-column h3{
-    margin-top:0;
-    margin-bottom:10px;
-    position:sticky;
-    top:0;
-    background:white;
-    padding-bottom:5px;
+    overflow-y:auto;
 }
 
 .clue{
     font-size:14px;
     margin-bottom:10px;
-    line-height:1.4;
-}
-
-/* ===== BUTTONS ===== */
-
-button{
-    padding:6px 12px;
-    font-weight:bold;
-    cursor:pointer;
-    border:none;
-    background:#4a90e2;
-    color:white;
-    border-radius:4px;
-}
-
-button:hover{
-    background:#357abd;
 }
 
 /* ===== START SCREEN ===== */
@@ -123,26 +108,10 @@ button:hover{
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    z-index:10;
 }
 
 #startScreen input{
     padding:10px;
     width:300px;
     margin:10px;
-    font-size:16px;
-}
-
-.cell-number{
-    position:absolute;
-    top:2px;
-    left:4px;
-    font-size:10px;
-    font-weight:bold;
-    pointer-events:none;
-}
-
-#grid > div{
-    width:40px;
-    height:40px;
 }
