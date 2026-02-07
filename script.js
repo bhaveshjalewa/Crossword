@@ -5,7 +5,6 @@ const undoBtn = document.getElementById("undoBtn");
 const startBtn = document.getElementById("startBtn");
 const timerDisplay = document.getElementById("timer");
 
-const SIZE = 15;
 let selectedCell = null;
 let direction = "across";
 let history = [];
@@ -13,33 +12,41 @@ let timerInterval;
 let timeSpent = 0;
 let gameStarted = false;
 
-/* ================= PUZZLE STRUCTURE ================= */
+/* ========= COMPACT PUZZLE ========= */
+/* 0 = block, letter = solution */
 
-const solution = [
-" LIFECYCLE    ",
-"        TBRATE",
-"  CAPM        ",
-"NPVRULE       ",
-"DEBRATIO      ",
-"POISON        ",
-"SHARPE        ",
-"STDDEV        ",
-"UNSYSRISK     ",
-"EMH           ",
-"ABS           ",
-"QUICK         ",
-"CALL          ",
-"NPV           ",
-"BETA          "
+const puzzle = [
+"0LIFECYCLE00",
+"0N000000TBR0",
+"0T000000CAPM",
+"0C000NPVRULE",
+"0OVERDEBRATIO",
+"000000POISON0",
+"000000SHARPE0",
+"000000STDDEV0",
+"000000UNSYSRISK",
+"000000EMH0000",
+"000000ABS0000",
+"000000QUICK00",
+"000000CALL000",
+"000000NPV0000",
+"000000BETA000"
 ];
 
 /* ================= GRID CREATION ================= */
 
 function createGrid(){
-    for(let r=0;r<SIZE;r++){
-        for(let c=0;c<SIZE;c++){
-            const char = solution[r][c] || " ";
-            if(char === " "){
+    const rows = puzzle.length;
+    const cols = Math.max(...puzzle.map(r => r.length));
+
+    gridElement.style.gridTemplateColumns = `repeat(${cols},40px)`;
+
+    for(let r=0;r<rows;r++){
+        for(let c=0;c<cols;c++){
+
+            const char = puzzle[r][c] || "0";
+
+            if(char === "0"){
                 const block = document.createElement("div");
                 block.className = "block";
                 gridElement.appendChild(block);
@@ -55,12 +62,12 @@ function createGrid(){
                 });
 
                 input.addEventListener("input", (e)=>{
-                    history.push({cell:input, val:e.target.value});
+                    history.push({cell:input});
                     e.target.value = e.target.value.toUpperCase();
                     moveNext(r,c);
                 });
 
-                input.addEventListener("keydown", (e)=>{
+                input.addEventListener("keydown",(e)=>{
                     handleNavigation(e,r,c);
                 });
 
@@ -83,7 +90,7 @@ function startTimer(){
     },1000);
 }
 
-/* ================= CELL SELECTION ================= */
+/* ================= CELL LOGIC ================= */
 
 function handleCellClick(cell){
     if(selectedCell === cell){
@@ -102,14 +109,14 @@ function highlightWord(){
     let c = parseInt(selectedCell.dataset.col);
 
     if(direction === "across"){
-        while(c>0 && solution[r][c-1] !== " ") c--;
-        while(c<SIZE && solution[r][c] !== " "){
+        while(c>0 && puzzle[r][c-1] !== "0") c--;
+        while(puzzle[r][c] && puzzle[r][c] !== "0"){
             focusCell(r,c,true);
             c++;
         }
     } else {
-        while(r>0 && solution[r-1][c] !== " ") r--;
-        while(r<SIZE && solution[r][c] !== " "){
+        while(r>0 && puzzle[r-1][c] !== "0") r--;
+        while(puzzle[r] && puzzle[r][c] !== "0"){
             focusCell(r,c,true);
             r++;
         }
@@ -123,8 +130,6 @@ function focusCell(r,c,highlight=false){
         else cell.focus();
     }
 }
-
-/* ================= NAVIGATION ================= */
 
 function moveNext(r,c){
     if(direction === "across"){
@@ -170,7 +175,7 @@ function checkAnswers(){
     document.querySelectorAll(".cell").forEach(cell=>{
         const r = cell.dataset.row;
         const c = cell.dataset.col;
-        if(cell.value !== solution[r][c]){
+        if(cell.value !== puzzle[r][c]){
             correct = false;
         }
     });
@@ -193,7 +198,7 @@ submitBtn.addEventListener("click", ()=>{
 
     if(checkAnswers()){
         const code = generateCode();
-        alert("Correct Submission!\n\nTime: "+timerDisplay.textContent+
+        alert("Correct!\nTime: "+timerDisplay.textContent+
               "\nCompletion Code:\n"+code);
         document.querySelectorAll(".cell").forEach(c=>c.disabled=true);
     } else {
