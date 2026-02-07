@@ -33,16 +33,17 @@ const puzzle = [
 "000000BETA000"
 ];
 
-/* ================= GRID CREATION ================= */
-
 function createGrid(){
-   const rows = puzzle.length;
-const cols = Math.max(...puzzle.map(r => r.length));
 
-gridElement.style.gridTemplateColumns = `repeat(${cols},40px)`;
+    const rows = puzzle.length;
+    const cols = Math.max(...puzzle.map(r => r.length));
 
-    for(let r=0;r<rows;r++){
-        for(let c=0;c<cols;c++){
+    gridElement.style.gridTemplateColumns = `repeat(${cols},40px)`;
+
+    let number = 1;
+
+    for(let r=0; r<rows; r++){
+        for(let c=0; c<cols; c++){
 
             const char = puzzle[r][c] || "0";
 
@@ -51,6 +52,10 @@ gridElement.style.gridTemplateColumns = `repeat(${cols},40px)`;
                 block.className = "block";
                 gridElement.appendChild(block);
             } else {
+
+                const wrapper = document.createElement("div");
+                wrapper.style.position = "relative";
+
                 const input = document.createElement("input");
                 input.maxLength = 1;
                 input.className = "cell";
@@ -71,7 +76,25 @@ gridElement.style.gridTemplateColumns = `repeat(${cols},40px)`;
                     handleNavigation(e,r,c);
                 });
 
-                gridElement.appendChild(input);
+                // Check if this cell starts Across or Down word
+                const startsAcross =
+                    (c === 0 || puzzle[r][c-1] === "0") &&
+                    (puzzle[r][c+1] && puzzle[r][c+1] !== "0");
+
+                const startsDown =
+                    (r === 0 || puzzle[r-1][c] === "0") &&
+                    (puzzle[r+1] && puzzle[r+1][c] !== "0");
+
+                if(startsAcross || startsDown){
+                    const numberSpan = document.createElement("span");
+                    numberSpan.textContent = number;
+                    numberSpan.className = "cell-number";
+                    wrapper.appendChild(numberSpan);
+                    number++;
+                }
+
+                wrapper.appendChild(input);
+                gridElement.appendChild(wrapper);
             }
         }
     }
