@@ -1,20 +1,32 @@
+/* ===== GLOBAL ===== */
+
 body{
     margin:0;
     font-family:Segoe UI, sans-serif;
     background:#f4f6f9;
 }
 
+/* ===== HEADER ===== */
+
 header{
     display:flex;
     justify-content:space-between;
+    align-items:center;
     padding:10px 20px;
     background:#dbe7f5;
     font-weight:bold;
+    height:60px;
+    box-sizing:border-box;
 }
+
+/* ===== MAIN LAYOUT ===== */
 
 .container{
     display:flex;
+    height:calc(100vh - 60px); /* Full height minus header */
 }
+
+/* ===== CROSSWORD GRID ===== */
 
 #grid{
     display:grid;
@@ -31,23 +43,68 @@ header{
     text-align:center;
     font-size:18px;
     text-transform:uppercase;
+    outline:none;
+}
+
+.cell:focus{
+    background:#e6f2ff;
 }
 
 .block{
     background:black;
 }
 
-.clues{
+/* ===== CLUE SECTION ===== */
+
+.clues-wrapper{
     flex:1;
+    display:flex;
+    gap:20px;
     padding:20px;
     background:white;
+    overflow:hidden; /* prevent whole page scroll */
+    box-sizing:border-box;
 }
+
+.clue-column{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    overflow-y:auto; /* scroll only inside column */
+}
+
+.clue-column h3{
+    margin-top:0;
+    margin-bottom:10px;
+    position:sticky;
+    top:0;
+    background:white;
+    padding-bottom:5px;
+}
+
+.clue{
+    font-size:14px;
+    margin-bottom:10px;
+    line-height:1.4;
+}
+
+/* ===== BUTTONS ===== */
 
 button{
     padding:6px 12px;
     font-weight:bold;
     cursor:pointer;
+    border:none;
+    background:#4a90e2;
+    color:white;
+    border-radius:4px;
 }
+
+button:hover{
+    background:#357abd;
+}
+
+/* ===== START SCREEN ===== */
 
 #startScreen{
     position:fixed;
@@ -58,10 +115,12 @@ button{
     flex-direction:column;
     justify-content:center;
     align-items:center;
+    z-index:10;
 }
 
 #startScreen input{
     padding:10px;
     width:300px;
     margin:10px;
+    font-size:16px;
 }
