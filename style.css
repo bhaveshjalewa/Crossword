@@ -45,6 +45,9 @@ header{
     text-transform:uppercase;
     outline:none;
 }
+.cell.active{
+    background:#cfe8ff;
+}
 
 .cell:focus{
     background:#e6f2ff;
