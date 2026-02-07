@@ -1,15 +1,15 @@
 const gridElement = document.getElementById("grid");
 const startBtn = document.getElementById("startBtn");
-const timerDisplay = document.getElementById("timer");
 const submitBtn = document.getElementById("submitBtn");
 const clearBtn = document.getElementById("clearBtn");
 const undoBtn = document.getElementById("undoBtn");
+const timerDisplay = document.getElementById("timer");
 
 let history = [];
 let timerInterval;
-let timeLeft = 2400; // 40 minutes
+let timeSpent = 0;
 
-// Crossword Layout (1 = letter cell, 0 = black block)
+// 15x15 Layout (1=letter, 0=block)
 const layout = [
 "111111110000000",
 "000000001000000",
@@ -26,6 +26,16 @@ const layout = [
 "111000000000000",
 "111000000000000",
 "111000000000000"
+];
+
+// Correct Answers Set
+const correctAnswers = [
+"LIFECYCLE","TBRATE","CAPM","NPVRULE","DEBRATIO",
+"POISON","SHARPE","STDDEV","UNSYSRISK","EMH",
+"ABS","QUICK","CALL","NPV","BETA",
+"INTCOVER","CRAR","SYSTEMIC","IMMUNIZE","ERP",
+"FOURPCT","BIRDHAND","FRONTIER","DURATION","VIX",
+"RISKSHIFT","YTM","WACC","ES","LBO"
 ];
 
 function createGrid(){
@@ -50,26 +60,50 @@ function createGrid(){
 
 function startTimer(){
     timerInterval = setInterval(()=>{
-        let minutes=Math.floor(timeLeft/60);
-        let seconds=timeLeft%60;
-        timerDisplay.textContent=
-            minutes+":"+(seconds<10?"0"+seconds:seconds);
-        timeLeft--;
-        if(timeLeft<0){
-            clearInterval(timerInterval);
-            alert("Time Over!");
-        }
+        timeSpent++;
+        let minutes=Math.floor(timeSpent/60);
+        let seconds=timeSpent%60;
+        timerDisplay.textContent =
+        (minutes<10?"0"+minutes:minutes)+":"+
+        (seconds<10?"0"+seconds:seconds);
     },1000);
 }
 
-startBtn.addEventListener("click",()=>{
-    const code=document.getElementById("accessCode").value;
-    if(code.length===52){
-        document.getElementById("startScreen").style.display="none";
-        startTimer();
-    }else{
-        alert("Access code must be 52 characters.");
+function generateCode(){
+    const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let result="";
+    for(let i=0;i<52;i++){
+        result+=chars.charAt(Math.floor(Math.random()*chars.length));
     }
+    return result;
+}
+
+startBtn.addEventListener("click",()=>{
+    const name=document.getElementById("playerName").value.trim();
+    if(name===""){
+        alert("Enter your name.");
+        return;
+    }
+    document.getElementById("startScreen").style.display="none";
+    startTimer();
+});
+
+submitBtn.addEventListener("click",()=>{
+    clearInterval(timerInterval);
+
+    // Simple validation (minimum filled cells)
+    let filled=0;
+    document.querySelectorAll(".cell").forEach(c=>{
+        if(c.value!=="") filled++;
+    });
+
+    if(filled<50){
+        alert("Incomplete crossword.");
+        return;
+    }
+
+    let code=generateCode();
+    alert("Correct Submission!\n\nCompletion Code:\n"+code);
 });
 
 clearBtn.addEventListener("click",()=>{
@@ -79,10 +113,6 @@ clearBtn.addEventListener("click",()=>{
 undoBtn.addEventListener("click",()=>{
     let last=history.pop();
     if(last) last.value="";
-});
-
-submitBtn.addEventListener("click",()=>{
-    alert("Submission received. Manual evaluation required.");
 });
 
 createGrid();
