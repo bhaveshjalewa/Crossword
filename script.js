@@ -36,10 +36,10 @@ const puzzle = [
 /* ================= GRID CREATION ================= */
 
 function createGrid(){
-    const rows = puzzle.length;
-    const cols = Math.max(...puzzle.map(r => r.length));
+   const rows = puzzle.length;
+const cols = Math.max(...puzzle.map(r => r.length));
 
-    gridElement.style.gridTemplateColumns = `repeat(${cols},40px)`;
+gridElement.style.gridTemplateColumns = `repeat(${cols},40px)`;
 
     for(let r=0;r<rows;r++){
         for(let c=0;c<cols;c++){
