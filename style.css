@@ -1,0 +1,71 @@
+body{
+    margin:0;
+    font-family:Segoe UI, sans-serif;
+    background:#f5f7fa;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 20px;
+    background:#dbe7f5;
+    font-weight:bold;
+}
+
+.container{
+    display:flex;
+    height:calc(100vh - 60px);
+}
+
+#grid{
+    display:grid;
+    grid-template-columns:repeat(15,40px);
+    grid-template-rows:repeat(15,40px);
+    gap:1px;
+    background:#333;
+    margin:20px;
+}
+
+.cell{
+    background:white;
+    border:none;
+    text-align:center;
+    font-size:18px;
+    text-transform:uppercase;
+}
+
+.block{
+    background:black;
+}
+
+.clues{
+    flex:1;
+    overflow-y:auto;
+    padding:20px;
+    background:white;
+}
+
+button{
+    margin-left:5px;
+    padding:5px 12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#startScreen{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:#f5f7fa;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+#startScreen input{
+    padding:10px;
+    width:350px;
+    margin:10px;
+}
