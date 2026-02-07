@@ -132,3 +132,17 @@ button:hover{
     margin:10px;
     font-size:16px;
 }
+
+.cell-number{
+    position:absolute;
+    top:2px;
+    left:4px;
+    font-size:10px;
+    font-weight:bold;
+    pointer-events:none;
+}
+
+#grid > div{
+    width:40px;
+    height:40px;
+}
